@@ -7,6 +7,11 @@ input.onButtonPressed(Button.AB, function () {
     for (let index = 0; index < 4; index++) {
         shoot.change(LedSpriteProperty.Y, -1)
         basic.pause(150)
+        if (shoot.isTouching(enemy)) {
+            game.addScore(1)
+            enemy.delete()
+            shoot.delete()
+        }
     }
     shoot.delete()
 })
@@ -17,6 +22,7 @@ let enemy: game.LedSprite = null
 let shoot: game.LedSprite = null
 let ship: game.LedSprite = null
 ship = game.createSprite(2, 4)
+game.setScore(0)
 basic.forever(function () {
     enemy = game.createSprite(randint(0, 4), 0)
     enemy.set(LedSpriteProperty.Brightness, 150)
@@ -28,5 +34,6 @@ basic.forever(function () {
     }
     if (enemy.isTouchingEdge()) {
         enemy.delete()
+        game.gameOver()
     }
 })
